@@ -25,4 +25,6 @@ jobs:
         run: mvn test
 
       - name: Upload code coverage to CODACY
-        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/target/site/jacoco-aggregate/jacoco.xml
+        run: |
+          export CODACY_PROJECT_TOKEN=${{ secrets.CODACY_PROJECT_TOKEN }}
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage/target/site/jacoco-aggregate/jacoco.xml
