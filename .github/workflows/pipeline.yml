@@ -48,7 +48,7 @@ jobs:
           registry: docker.pkg.github.com
           repository: ${{ github.repository_owner }}/tcsstore-image
           # file: Dockerfile
-          # tags: ghcr.io/${{ github.repository_owner }}/tcs-store:2.0
+          tags: docker.pkg.github.com/${{ github.repository_owner }}/tcs-store:latest
           push: true
 
       - name: Upload code coverage to CODACY
