@@ -1,0 +1,11 @@
+image: adoptopenjdk/maven-openjdk11
+
+build:
+  stage: build
+  script:
+    - mvn clean package -DskipTests=true
+
+test:
+  stage: test
+  script:
+    - mvn clean test

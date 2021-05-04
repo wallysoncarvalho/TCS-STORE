@@ -1,0 +1,353 @@
+swagger: "2.0"
+info:
+  description: "This is a simple implementation of a store for the position of java developer at Tata Consultancy Services."
+  version: "1.0.0"
+  title: "TSC Store Challenge - Wallyson"
+  contact:
+    email: "wallyson.carvalho@live.com"
+basePath: "/api/v1"
+tags:
+- name: "client"
+  description: "This resource handles the CRUD operations for the client"
+- name: "product"
+  description: "This resource handles the CRUD operations for the product"
+- name: "order"
+  description: "This resource handles the CRUD operations for the order"
+schemes:
+- "http"
+
+paths:
+# CLIENT RESOURCE DESCRIPTION
+  /client:
+    post:
+      tags:
+      - "client"
+      summary: "Add a new client"
+      description: ""
+      operationId: "createClient"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Client object to create a new client"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
+      responses:
+        "400":
+          description: "Invalid JSON provided on the body"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        "201":
+          description: "Cliente created successfully"
+  /client/{cpf}:
+    get:
+      tags:
+        - "client"
+      summary: "Get an existing client by ID"
+      operationId: "getClient"
+      parameters:
+        - in: "path"
+          name: "cpf"
+          type: "string"
+          required: true
+      responses:
+        "400":
+          description: "Client with the provided CPF was not found"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        "200":
+          description: "client object"
+          schema:
+            $ref: "#/definitions/Client"
+    put:
+        tags:
+          - "client"
+        summary: "Update an existing client"
+        description: ""
+        operationId: "updateClient"
+        consumes:
+          - "application/json"
+        parameters:
+          - in: "path"
+            name: "cpf"
+            type: "string"
+            required: true
+          - in: "body"
+            name: "body"
+            description: "Pet object that needs to be added to the store"
+            required: true
+            schema:
+              $ref: "#/definitions/Client"
+        responses:
+          "400":
+            description: "Client dont exist"
+            schema:
+              $ref: "#/definitions/ApiErrorResponse"
+          "200":
+            description: "Client updated successfully"
+    delete:
+      tags:
+        - "client"
+      summary: "Delete an existing client"
+      description: ""
+      operationId: "deleteClient"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "cpf"
+          type: "string"
+          required: true
+      responses:
+        "400":
+          description: "Client dont exist"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        "200":
+          description: "Client deleted successfully"
+  
+  # PRODUCT RESOURCE DESCRIPTION
+  /product:
+    post:
+      tags:
+      - "product"
+      summary: "Add a new product"
+      description: ""
+      operationId: "createProduct"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Product object to create a new product"
+        required: true
+        schema:
+          $ref: "#/definitions/Product"
+      responses:
+        "400":
+          description: "Invalid JSON provided on the body"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        "201":
+          description: "Product created successfully"
+  /product/{id}:
+    get:
+      tags:
+        - "product"
+      summary: "Get an existing product by ID"
+      operationId: "getProduct"
+      parameters:
+        - in: "path"
+          name: "id"
+          type: "number"
+          required: true
+      responses:
+        "400":
+          description: "Product with the provided ID was not found"
+          schema:
+            $ref: "#/definitions/ApiErrorResponse"
+        "200":
+          description: "product object"
+          schema:
+            $ref: "#/definitions/ProductResponse"
+    put:
+        tags:
+          - "product"
+        summary: "Update an existing product"
+        description: ""
+        operationId: "updateProduct"
+        consumes:
+          - "application/json"
+        parameters:
+          - in: "path"
+            name: "id"
+            type: "number"
+            required: true
+          - in: "body"
+            name: "body"
+            description: ""
+            required: true
+            schema:
+              $ref: "#/definitions/Product"
+        responses:
+          "400":
+            description: "Product dont exist"
+            schema:
+              $ref: "#/definitions/ApiErrorResponse"
+          "200":
+            description: "successful operation"
+    delete:
+      tags:
+        - "product"
+      summary: "Delete an existing product"
+      description: ""
+      operationId: "deleteProduct"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "id"
+          type: "number"
+          required: true
+      responses:
+        "400":
+          description: "Invalid JSON provided on the body or product dont exist"
+        "200":
+          description: "successful operation"
+
+# ORDER RESOURCE DESCRIPTION
+  /order:
+    post:
+      tags:
+      - "order"
+      summary: "Creates a new order"
+      description: ""
+      operationId: "createOrder"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Product object to create a new product"
+        required: true
+        schema:
+          $ref: "#/definitions/Order"
+      responses:
+        "400":
+          description: "Invalid JSON provided on the body. Inpputed client do not exist."
+        "201":
+          description: "order created successfully"
+  /order/{id}:
+    get:
+        tags:
+          - "order"
+        summary: "Get an existing order by ID"
+        operationId: "getOrder"
+        parameters:
+          - in: "path"
+            name: "id"
+            type: "number"
+            required: true
+        responses:
+          "400":
+            description: "Order with the provided ID was not found"
+          "200":
+            description: "order found"
+            schema:
+              $ref: "#/definitions/Order"
+  /order/{id}/receipt:
+    get:
+      tags:
+        - "order"
+      summary: "Get the receipt of an existing order"
+      operationId: "getOrderReceipt"
+      parameters:
+        - in: "path"
+          name: "id"
+          type: "number"
+          required: true
+      responses:
+        "400":
+          description: "Order with the provided ID was not found"  
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/OrderReceipt"
+
+# DEFINITIONS DESCRIPTION
+definitions:
+  Client:
+    type: "object"
+    properties:
+      cpf:
+        type: "string"
+        format: "cpf"
+      full_name:
+        type: "string"
+      phone:
+        type: "string"
+        format: "int32"
+      full_address:
+        type: "string"
+      postal_code:
+        type: "string"
+      district:
+        type: "string"
+      city:
+        type: "string"
+  Product:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      description:
+        type: "string"
+      priceUnit:
+        type: "number"
+  ProductResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      priceUnit:
+        type: "number"
+  Order:
+    type: "object"
+    properties:
+      client_cpf:
+        type: "string"
+      items:
+        type: "array"
+        items:
+          $ref: "#/definitions/OrderProductItem"
+  OrderProductItem:
+    type: "object"
+    properties:
+      product_id:
+        type: "integer"
+      amount:
+        type: "integer"
+  OrderReceipt:
+    type: "object"
+    properties:
+      client:
+        type: "object"
+        properties:
+          cpf:
+            type: "string"
+          name:
+            type: "string"
+          cep:
+            type: "string"
+      products:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            productId:
+              type: "integer"
+            amount:
+              type: "number"
+            productPrice:
+              type: "number"
+      shipping:
+        type: "object"
+        properties:
+          uf:
+            type: "string"
+          district:
+            type: "string"
+          cost:
+            type: "number"
+
+  ApiErrorResponse:
+    type: "object"
+    properties:
+      message:
+        type: "string"
