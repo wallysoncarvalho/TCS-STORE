@@ -24,19 +24,19 @@ jobs:
       - name: Run Tests
         run: mvn test
 
-      - name: Login to Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.REGISTRY_TOKEN }}
-
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-buildx-
+#      - name: Login to Registry
+#        uses: docker/login-action@v1
+#        with:
+#          registry: ghcr.io
+#          username: ${{ github.repository_owner }}
+#          password: ${{ secrets.REGISTRY_TOKEN }}
+#
+#      - name: Cache Docker layers
+#        uses: actions/cache@v2
+#        with:
+#          path: /tmp/.buildx-cache
+#          key: ${{ runner.os }}-buildx-${{ github.sha }}
+#          restore-keys: ${{ runner.os }}-buildx-
 
       - name: Push Docker image to GitHub Packages
         uses: docker/build-push-action@v2
@@ -46,9 +46,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.REGISTRY_TOKEN }}
           registry: docker.pkg.github.com
-          repository: ${{ github.repository_owner }}/tcsstore-image
-          # file: Dockerfile
-          tags: docker.pkg.github.com/${{ github.repository_owner }}/tcs-store:latest
+          repository: ${{ github.repository_owner }}/tcs-store/tcsstore-image
           push: true
 
       - name: Upload code coverage to CODACY
