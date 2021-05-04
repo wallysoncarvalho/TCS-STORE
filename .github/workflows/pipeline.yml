@@ -43,8 +43,12 @@ jobs:
         with:
           context: .
           version: latest
-          file: Dockerfile
-          tags: ghcr.io/${{ github.repository_owner }}/tcs-store:2.0
+          username: ${{ github.actor }}
+          password: ${{ secrets.REGISTRY_TOKEN }}
+          registry: docker.pkg.github.com
+          repository: ${{ github.repository_owner }}/tcsstore-image
+          # file: Dockerfile
+          # tags: ghcr.io/${{ github.repository_owner }}/tcs-store:2.0
           push: true
 
       - name: Upload code coverage to CODACY
@@ -53,10 +57,10 @@ jobs:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: coverage/target/site/jacoco-aggregate/jacoco.xml
 
-      - name: Upload code coverage to CODECOV
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage/target/site/jacoco-aggregate/jacoco.xml
-          fail_ci_if_error: true
-          verbose: true
+      # - name: Upload code coverage to CODECOV
+      #   uses: codecov/codecov-action@v1
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     files: coverage/target/site/jacoco-aggregate/jacoco.xml
+      #     fail_ci_if_error: true
+      #     verbose: true
